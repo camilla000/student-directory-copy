@@ -17,20 +17,25 @@ def input_students
   students
 end
 
-def first_letter
-  puts "What initial do you want to see?"
-  initial = gets.chomp
-  initial
+def num_char(students)
+  students.select {|student| student[:name].length <= 12}
+
 end
+
+# def first_letter
+#   puts "What initial do you want to see?"
+#   initial = gets.chomp
+#   initial
+# end
 
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
 
-def print_students(students, initial)
-  students.select {|student| student[:name].chars.first == initial.upcase}
-end
+# def print_students(students, initial)
+#   students.select {|student| student[:name].chars.first == initial.upcase}
+# end
 
 def print(students)
   students.each_with_index do |student, index|
@@ -43,8 +48,10 @@ def print_footer(names)
 end
 
 students = input_students
-initial = first_letter
-initial_students = print_students(students, initial)
+# initial = first_letter
+# initial_students = print_students(students, initial)
+length = num_char(students)
 print_header
-print(initial_students)
+# print(initial_students)
+print(length)
 print_footer(students)
