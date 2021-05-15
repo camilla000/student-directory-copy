@@ -17,9 +17,19 @@ def input_students
   students
 end
 
+def first_letter
+  puts "What initial do you want to see?"
+  initial = gets.chomp
+  initial
+end
+
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
+end
+
+def print_students(students, initial)
+  students.select {|student| student[:name].chars.first == initial.upcase}
 end
 
 def print(students)
@@ -33,6 +43,8 @@ def print_footer(names)
 end
 
 students = input_students
+initial = first_letter
+initial_students = print_students(students, initial)
 print_header
-print(students)
+print(initial_students)
 print_footer(students)
