@@ -34,7 +34,7 @@ end
 
 def print_header
   puts "The students of Villains Academy"
-  puts "-------------"
+  puts "-----------------------------------"
 end
 
 # def print_students(students, initial)
@@ -50,7 +50,7 @@ def print(students)
     puts "#{counting +1}. #{students[counting][:name]} 
     nationality: #{students[counting][:nationality]} 
     age: #{students[counting][:age]}
-    cohort: #{students[counting][:cohort]}"
+    cohort: #{students[counting][:cohort]}".center(30)
     counting += 1
   end
 end
