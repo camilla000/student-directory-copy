@@ -6,13 +6,21 @@ def input_students
   # get the name
   name = gets.chomp.capitalize
   #while the name is not empty, repeat this code
-  while !name.empty? do
+  while !name.empty?
+    puts "Which cohort is the student in?"
+    cohort = gets.chomp
+    if cohort == ""
+      cohort = "Cohort not assigned"
+    else
+      cohort = cohort.to_sym
+    end
+
     puts "What's the student's nationality? "
     nationality = gets.chomp.capitalize
     puts "How old is the student? "
-     age = gets.chomp
+    age = gets.chomp
     # add the student hash to the array
-    students << { name: name, cohort: :november, nationality: nationality, age: age }
+    students << { name: name, cohort: cohort, nationality: nationality, age: age }
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp.capitalize
@@ -22,8 +30,7 @@ def input_students
 end
 
 def num_char(students)
-  students.select {|student| student[:name].length <= 12}
-
+  students.select { |student| student[:name].length <= 12 }
 end
 
 # def first_letter
@@ -47,7 +54,7 @@ def print(students)
   # end
   counting = 0
   while counting < students.count
-    puts "#{counting +1}. #{students[counting][:name]} 
+    puts "#{counting + 1}. #{students[counting][:name]} 
     nationality: #{students[counting][:nationality]} 
     age: #{students[counting][:age]}
     cohort: #{students[counting][:cohort]}".center(30)
