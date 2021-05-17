@@ -33,32 +33,31 @@ def num_char(students)
   students.select { |student| student[:name].length <= 12 }
 end
 
-# def first_letter
-#   puts "What initial do you want to see?"
-#   initial = gets.chomp
-#   initial
-# end
-
 def print_header
   puts "The students of Villains Academy"
   puts "-----------------------------------"
 end
 
-# def print_students(students, initial)
-#   students.select {|student| student[:name].chars.first == initial.upcase}
-# end
+def cohort_group(students)
+  groups = {}
+  students.each do |student|
+    cohort = student[:cohort].to_sym
+    if groups[cohort] == nil
+      groups[cohort] = []
+    end
+    groups[cohort].push(student)
+  end
+  groups
+end
 
 def print(students)
-  # students.each_with_index do |student, index|
-  #   puts "#{index + 1} #{student[:name]} (#{student[:cohort]} cohort)"
-  # end
-  counting = 0
-  while counting < students.count
-    puts "#{counting + 1}. #{students[counting][:name]} 
-    nationality: #{students[counting][:nationality]} 
-    age: #{students[counting][:age]}
-    cohort: #{students[counting][:cohort]}".center(30)
-    counting += 1
+  students.each do |cohort, cohort_students|
+    puts "#{cohort.capitalize} Cohort".center(30)
+    cohort_students.each_with_index do |identity, index|
+      puts "#{index + 1}. #{identity[:name].capitalize}
+      nationality: #{identity[:nationality]}
+      age: #{identity[:age]}".center(30)
+    end
   end
 end
 
@@ -70,7 +69,8 @@ students = input_students
 # initial = first_letter
 # initial_students = print_students(students, initial)
 length = num_char(students)
+grouped_students = cohort_group(length)
 print_header
 # print(initial_students)
-print(length)
+print(grouped_students)
 print_footer(students)
