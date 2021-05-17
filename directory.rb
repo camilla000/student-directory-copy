@@ -1,6 +1,6 @@
 def input_students
   puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "To finish, just hit enter twice"
   #create an empty array
   students = []
   # get the name
@@ -21,7 +21,12 @@ def input_students
     age = gets.chomp
     # add the student hash to the array
     students << { name: name, cohort: cohort, nationality: nationality, age: age }
-    puts "Now we have #{students.count} students"
+    if students.count == 1
+      puts "Now we have 1 student"
+    else 
+      puts "Now we have #{students.count} students"
+    end
+   
     # get another name from the user
     name = gets.chomp.capitalize
   end
@@ -52,7 +57,7 @@ end
 
 def print(students)
   students.each do |cohort, cohort_students|
-    puts "#{cohort.capitalize} Cohort".center(30)
+    puts " * #{cohort.capitalize} Cohort *".center(30)
     cohort_students.each_with_index do |identity, index|
       puts "#{index + 1}. #{identity[:name].capitalize}
       nationality: #{identity[:nationality]}
@@ -62,7 +67,11 @@ def print(students)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+    if names.count == 1
+    puts "Overall, we have 1 great student"
+    else 
+      puts "Overall, we have #{names.count} great students"
+  end
 end
 
 students = input_students
