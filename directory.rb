@@ -1,11 +1,13 @@
+# let's puts students into an array
+
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit enter twice"
+  puts "Please enter the names of students"
+  puts "To finish, just hit return twice"
   #create an empty array
   students = []
-  # get the name
-  name = gets.chomp.capitalize
-  #while the name is not empty, repeat this code
+  #get the first name
+  name = gets.rstrip
+  #while name is not empty, repeat this line
   while !name.empty?
     puts "Which cohort is the student in?"
     cohort = gets.chomp
@@ -14,36 +16,33 @@ def input_students
     else
       cohort = cohort.to_sym
     end
-
     puts "What's the student's nationality? "
-    nationality = gets.chomp.capitalize
+    nationality = gets.chomp
     puts "How old is the student? "
     age = gets.chomp
-    # add the student hash to the array
-    students << { name: name, cohort: cohort, nationality: nationality, age: age }
-    if students.count == 1
-      puts "Now we have 1 student"
-    else 
-      puts "Now we have #{students.count} students"
-    end
-   
-    # get another name from the user
-    name = gets.chomp.capitalize
+
+    # add the students hash to the array
+    students << { name: name, cohort: cohort, nationality: nationality,
+                  age: age }
+    puts "Now we have #{students.count} students"
+    #get another name from the user
+    puts "Please enter another name, or press enter to skip"
+    name = gets.chomp
   end
-  # return the students array
+  #return the array of students
   students
 end
 
-def num_char(students)
+def print_students(students)
   students.select { |student| student[:name].length <= 12 }
 end
 
 def print_header
   puts "The students of Villains Academy"
-  puts "-----------------------------------"
+  puts "--------------------------------"
 end
 
-def cohort_group(students)
+def group_cohort(students)
   groups = {}
   students.each do |student|
     cohort = student[:cohort].to_sym
@@ -59,27 +58,46 @@ def print(students)
   students.each do |cohort, cohort_students|
     puts " * #{cohort.capitalize} Cohort *".center(30)
     cohort_students.each_with_index do |identity, index|
-      puts "#{index + 1}. #{identity[:name].capitalize}
-      nationality: #{identity[:nationality]}
-      age: #{identity[:age]}".center(30)
+      puts "#{index + 1}. #{identity[:name]}
+            nationality: #{identity[:nationality]}
+            age: #{identity[:age]}".center(30)
     end
   end
 end
 
-def print_footer(names)
-    if names.count == 1
+def print_footer(students)
+  if students.count == 1
     puts "Overall, we have 1 great student"
-    else 
-      puts "Overall, we have #{names.count} great students"
+  else
+    puts "Overall, we have #{students.count} great students"
   end
 end
 
-students = input_students
-# initial = first_letter
-# initial_students = print_students(students, initial)
-length = num_char(students)
-grouped_students = cohort_group(length)
-print_header
-# print(initial_students)
-print(grouped_students)
-print_footer(students)
+def interactive_menu
+  students = []
+  loop do
+    #1. Print the menu and ask user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit" # 9 because we'll be adding more options
+    #2. Read the input and save it into a variable
+    selection = gets.chomp
+    #3. Do what the user has asked
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      length = print_students(students)
+      grouped_students = group_cohort(length)
+      print_header
+      print(grouped_students)
+      print_footer(students)
+    when "9"
+      exit # This will cause the program to terminate
+    else
+      puts "I don't know what you mean, try again"
+    end
+  end
+end
+
+interactive_menu
