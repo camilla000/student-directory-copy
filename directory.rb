@@ -1,44 +1,34 @@
-# let's puts students into an array
+@students = []
 
 def input_students
   puts "Please enter the names of students"
-  puts "To finish, just hit return twice"
-  #create an empty array
-  students = []
-  #get the first name
-  name = gets.rstrip
-  #while name is not empty, repeat this line
+  puts "To finish, hit return twice"
+  name = gets.chomp
   while !name.empty?
     puts "Which cohort is the student in?"
     cohort = gets.chomp
     if cohort == ""
-      cohort = "Cohort not assigned"
+      cohort = "Not assigned"
     else
       cohort = cohort.to_sym
     end
-    puts "What's the student's nationality? "
+
+    puts "What is the student's nationality?"
     nationality = gets.chomp
-    puts "How old is the student? "
+
+    puts "What is the student's age?"
     age = gets.chomp
 
-    # add the students hash to the array
-    students << { name: name, cohort: cohort, nationality: nationality,
-                  age: age }
-    puts "Now we have #{students.count} students"
-    #get another name from the user
+    @students << { name: name, cohort: cohort, nationality: nationality, age: age }
+
+    puts "Now we have #{@students.count} students"
     puts "Please enter another name, or press enter to skip"
     name = gets.chomp
   end
-  #return the array of students
-  students
-end
-
-def print_students(students)
-  students.select { |student| student[:name].length <= 12 }
 end
 
 def print_header
-  puts "The students of Villains Academy"
+  puts "The students of Makers Academy"
   puts "--------------------------------"
 end
 
@@ -54,7 +44,7 @@ def group_cohort(students)
   groups
 end
 
-def print(students)
+def print_students_list(students)
   students.each do |cohort, cohort_students|
     puts " * #{cohort.capitalize} Cohort *".center(30)
     cohort_students.each_with_index do |identity, index|
@@ -73,31 +63,39 @@ def print_footer(students)
   end
 end
 
+def print_menu
+  #1. Print the menu and ask user what to do
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit" # 9 because we'll be adding more options
+end
+
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "9"
+    exit
+  else
+    puts "I don't know what you mean, try again"
+  end
+end
+
+def show_students
+  grouped_students = group_cohort(@students)
+  print_header
+  print_students_list(grouped_students)
+  print_footer(@students)
+end
+
 def interactive_menu
-  students = []
   loop do
-    #1. Print the menu and ask user what to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit" # 9 because we'll be adding more options
-    #2. Read the input and save it into a variable
-    selection = gets.chomp
-    #3. Do what the user has asked
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      length = print_students(students)
-      grouped_students = group_cohort(length)
-      print_header
-      print(grouped_students)
-      print_footer(students)
-    when "9"
-      exit # This will cause the program to terminate
-    else
-      puts "I don't know what you mean, try again"
-    end
+    print_menu
+    process(gets.chomp)
   end
 end
 
 interactive_menu
+
